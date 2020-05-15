@@ -2,7 +2,6 @@ import * as utils from '../src/utils.js';
 import { registerBidder } from '../src/adapters/bidderFactory.js';
 import { BANNER, NATIVE } from '../src/mediaTypes.js';
 
-
 import find from 'core-js-pure/features/array/find.js';
 
 const BIDDER_CODE = 'nextroll';
@@ -188,12 +187,12 @@ function _buildResponse(bidResponse, bid) {
     netRevenue: true,
     ttl: 300
   }
-  _getNativeResponse(bid)
   if (utils.isStr(bid.adm)) {
-    response.adm = utils.replaceAuctionPrice(bid.adm, bid.price)
+    response.ad = utils.replaceAuctionPrice(bid.adm, bid.price)
   } else {
     response.native = _getNativeResponse(bid.adm, bid.price)
   }
+  return response
 }
 
 function _getNativeResponse(adm, price) {
