@@ -1,7 +1,6 @@
 import * as utils from '../src/utils.js';
 import { registerBidder } from '../src/adapters/bidderFactory.js';
 import { BANNER, NATIVE } from '../src/mediaTypes.js';
-import { parse as parseUrl } from '../src/url.js';
 
 
 import find from 'core-js-pure/features/array/find.js';
