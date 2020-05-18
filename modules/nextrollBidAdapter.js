@@ -6,7 +6,7 @@ import find from 'core-js-pure/features/array/find.js';
 
 const BIDDER_CODE = 'nextroll';
 const BIDDER_ENDPOINT = 'https://d.adroll.com/bid/prebid/';
-const ADAPTER_VERSION = 4;
+const ADAPTER_VERSION = 5;
 
 export const spec = {
   code: BIDDER_CODE,
@@ -44,7 +44,7 @@ export const spec = {
             id: bidRequest.bidId,
             bidfloor: utils.getBidIdParameter('bidfloor', bidRequest.params),
             banner: _getBanner(bidRequest),
-            native: _getNative(bidRequest),
+            native: _getNative(utils.deepAccess(bidRequest, 'mediaTypes.native')),
             ext: {
               zone: {
                 id: utils.getBidIdParameter('zoneId', bidRequest.params)
@@ -87,8 +87,8 @@ function _getBanner(bidRequest) {
   return {format: sizes}
 }
 
-function _getNative(bidRequest) {
-  let assets = _getNativeAssets(bidRequest)
+function _getNative(mediaTypeNative) {
+  let assets = _getNativeAssets(mediaTypeNative)
   if (assets === undefined || assets.length == 0) return undefined
   return {
     request: {
@@ -121,8 +121,8 @@ const ASSET_KIND_MAP = {
   data: _getDataAsset,
 }
 
-function _getAsset(bidRequest, assetMap) {
-  let asset = bidRequest[assetMap.key]
+function _getAsset(mediaTypeNative, assetMap) {
+  let asset = mediaTypeNative[assetMap.key]
   if (asset === undefined) return undefined
   let assetFunc = ASSET_KIND_MAP[assetMap.kind]
   return {
@@ -155,8 +155,8 @@ function _getDataAsset(data, assetMap) {
   }
 }
 
-function _getNativeAssets(bidRequest) {
-  return NATIVE_ASSET_MAP.map(assetMap => _getAsset(bidRequest, assetMap)).filter(asset => asset !== undefined)
+function _getNativeAssets(mediaTypeNative) {
+  return NATIVE_ASSET_MAP.map(assetMap => _getAsset(mediaTypeNative, assetMap)).filter(asset => asset !== undefined)
 }
 
 function _getUser(requests) {
