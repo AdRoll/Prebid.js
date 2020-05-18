@@ -49,7 +49,7 @@ describe('nextrollBidAdapter', function() {
       };
 
       let request = spec.buildRequests([nativeBid], {})
-      expect(request.native.request.native.assets[0]).to.be.equal({id: 1, required: true, title: {len: 80}});
+      expect(request).to.be.equal({id: 1, required: true, title: {len: 80}});
     })
   })
 

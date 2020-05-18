@@ -88,6 +88,7 @@ function _getBanner(bidRequest) {
 }
 
 function _getNative(mediaTypeNative) {
+  if (mediaTypeNative === undefined) return undefined
   let assets = _getNativeAssets(mediaTypeNative)
   if (assets === undefined || assets.length == 0) return undefined
   return {
