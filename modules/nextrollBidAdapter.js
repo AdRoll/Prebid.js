@@ -309,6 +309,7 @@ function _getOsVersion(userAgent) {
 }
 
 export function hasCCPAConsent(bidderRequest) {
+  if (bidderRequest === undefined) return true;
   if (typeof bidderRequest.uspConsent !== 'string') {
     return true;
   }

@@ -29,11 +29,10 @@ describe('nextrollBidAdapter', function() {
 
   describe('nativeBidRequest', () => {
     it('validates native spec', () => {
-      let nativeBid = {
+      let nativeAdUnit = [{
         bidder: 'nextroll',
         adUnitCode: 'adunit-code',
         bidId: 'bid_id',
-        sizes: [[300, 200]],
         mediaTypes: {
           native: {
             title: {required: true, len: 80},
@@ -46,10 +45,18 @@ describe('nextrollBidAdapter', function() {
           zoneId: 'zone1',
           publisherId: 'publisher_id'
         }
-      };
+      }];
 
-      let request = spec.buildRequests([nativeBid], {})
-      expect(request[0].data.imp.native.request.native.assets[0]).to.be.deep.equal({id: 1, required: true, title: {len: 80}});
+      let request = spec.buildRequests(nativeAdUnit)
+      console.log(JSON.stringify(request))
+      let assets = request[0].data.imp.native.request.native.assets
+
+      let excptedAssets = [
+        {id: 1, required: true, title: {len: 80}},
+        {id: 2, required: true, img: {w: 728, h: 90, wmin: 1, hmin: 1, type: 3}},
+        {id: 5, required: false, data: {len: 20, type: 1}}
+      ]
+      expect(assets).to.be.deep.equal(excptedAssets)
     })
   })
 
